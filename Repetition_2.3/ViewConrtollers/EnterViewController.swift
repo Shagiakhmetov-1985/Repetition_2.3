@@ -11,11 +11,11 @@ class EnterViewController: UIViewController {
     
     @IBOutlet weak var helloLabel: UILabel!
     
-    var hello: String!
+    var hello: User!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        helloLabel.text = "Hi, \(hello ?? "")"
+        helloLabel.text = "Hi, \(hello.person.fullname)"
     }
     
 }

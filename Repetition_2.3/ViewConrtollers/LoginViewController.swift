@@ -16,6 +16,8 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var forgotUserNameButton: UIButton!
     @IBOutlet weak var forgotPasswordButton: UIButton!
     
+    private let user = User.getUserData()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         textFieldUserName.delegate = self
@@ -23,8 +25,17 @@ class LoginViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let enterVC = segue.destination as? EnterViewController else { return }
-        enterVC.hello = "User"
+        guard let tabBarController = segue.destination as? UITabBarController else { return }
+        guard let viewController = tabBarController.viewControllers else { return }
+        
+        viewController.forEach {
+            if let enterVC = $0 as? EnterViewController {
+                enterVC.hello = user
+            } else if let navigationVC = $0 as? UINavigationController {
+                let aboutMeVC = navigationVC.topViewController as! AboutMeViewController
+                aboutMeVC.user = user
+            }
+        }
     }
     
     @IBAction func logInButton() {
